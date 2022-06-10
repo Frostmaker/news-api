@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
+  http_basic_authenticate_with name: Rails.application.credentials.name, password: Rails.application.credentials.password, except: [:show, :index]
   before_action :set_post, only: %i[ show edit update destroy ]
+
 
   # GET /posts or /posts.json
   def index
