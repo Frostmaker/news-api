@@ -2,6 +2,11 @@
 
 <h1>Posts</h1>
 
+<%= turbo_frame_tag dom_id(Post.new) do %>
+  <%= link_to "New post", new_post_path %>
+<% end %>
+
+
 <div id="posts">
   <% @posts.each do |post| %>
     <%= render post %>
@@ -11,4 +16,3 @@
   <% end %>
 </div>
 
-<%= link_to "New post", new_post_path %>

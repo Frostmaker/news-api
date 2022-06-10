@@ -1,3 +1,4 @@
+<%= turbo_frame_tag dom_id(Comment.new) do %>
 <%= form_with model: [ @post, @post.comments.build ] do |form| %>
   <p>
     <%= form.label :author %><br>
@@ -10,4 +11,5 @@
   <p>
     <%= form.submit %>
   </p>
+<% end %>
 <% end %>

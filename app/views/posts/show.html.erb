@@ -1,16 +1,23 @@
+
+<%= turbo_frame_tag 'edit_post' do %>
 <p style="color: green"><%= notice %></p>
+  <%= render @post %>
 
-<%= render @post %>
+  <div>
+    <%= link_to "Edit this post", edit_post_path(@post) %> |
+    <%= link_to "Back to posts", posts_path, target: '_top' %>
+  
+    <%= button_to "Destroy this post", post_path(@post), method: :delete, target: '_top' %>
+  </div>
+  <% end %>
+  
 
-<h2>Comments:</h2>
-<%= render @post.comments %>
+  <div>
+    <h2>Comments:</h2>
+    <%= render @post.comments %>
 
-<h2>Add a comment:</h2>
-<%= render 'comments/form' %>
-
-<div>
-  <%= link_to "Edit this post", edit_post_path(@post) %> |
-  <%= link_to "Back to posts", posts_path %>
-
-  <%= button_to "Destroy this post", @post, method: :delete %>
-</div>
+    <%= turbo_frame_tag dom_id(Comment.new) do %>
+      <h2>Add a comment:</h2>
+      <%= render 'comments/form' %>
+    <% end %>
+  </div>
