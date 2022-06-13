@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   http_basic_authenticate_with name: Rails.application.credentials.name, password: Rails.application.credentials.password, except: [:show, :index]
   before_action :set_post, only: %i[ show edit update destroy ]
-
+  skip_before_action :verify_authenticity_token
 
   # GET /posts or /posts.json
   def index
@@ -10,6 +10,7 @@ class PostsController < ApplicationController
 
   # GET /posts/1 or /posts/1.json
   def show
+
   end
 
   # GET /posts/new
@@ -19,6 +20,10 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
   end
 
   # POST /posts or /posts.json
@@ -44,9 +49,11 @@ class PostsController < ApplicationController
       if @post.update(post_params)
         format.html { redirect_to post_url(@post), notice: "Post was successfully updated." }
         format.json { render :show, status: :ok, location: @post }
+        format.turbo_stream { redirect_to post_url(@post) }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.turbo_stream
       end
     end
   end
@@ -57,8 +64,8 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream { redirect_to posts_path, target: '_top', notice: "Post was successfully destroyed." }
-      format.html { redirect_to posts_url, notice: "Post was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to posts_path, target: '_top', notice: "Post was successfully destroyed." }
+      format.json { redirect_to posts_path }
     end
   end
 

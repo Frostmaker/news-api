@@ -1,6 +1,11 @@
 class CommentsController < ApplicationController
 	before_action :set_comment, except: [:create, :new]
+	
+	
 	def show
+		respond_to do |format|
+			format.json { render json: @comment }
+		  end
 	end
 
 	def new
