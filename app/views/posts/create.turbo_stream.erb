@@ -1,0 +1,2 @@
+<%= turbo_stream.append 'posts', @post %>
+<%= turbo_stream.update Post.new, link_to("New post", new_post_path) %>
