@@ -32,11 +32,9 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.html { redirect_to post_url(@post), notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
         format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
         format.turbo_stream
       end
     end
@@ -47,11 +45,9 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to post_url(@post), notice: 'Post was successfully updated.' }
-        format.json { render :show, status: :ok, location: @post }
         format.turbo_stream { redirect_to post_url(@post) }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
         format.turbo_stream
       end
     end
@@ -64,7 +60,6 @@ class PostsController < ApplicationController
     respond_to do |format|
       format.turbo_stream { redirect_to posts_path, target: '_top', notice: 'Post was successfully destroyed.' }
       format.html { redirect_to posts_path, target: '_top', notice: 'Post was successfully destroyed.' }
-      format.json { redirect_to posts_path }
     end
   end
 
