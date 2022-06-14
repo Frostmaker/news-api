@@ -2,7 +2,6 @@ class PostsController < ApplicationController
   http_basic_authenticate_with name: Rails.application.credentials.name,
                                password: Rails.application.credentials.password, except: %i[show index]
   before_action :set_post, only: %i[show edit update destroy]
-  skip_before_action :verify_authenticity_token
 
   # GET /posts or /posts.json
   def index
