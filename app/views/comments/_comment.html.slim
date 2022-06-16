@@ -1,0 +1,8 @@
+= turbo_frame_tag dom_id(comment) do 
+  p
+    strong
+      = comment.author
+      | :
+    = comment.message
+  p
+    = button_to "Delete", post_comment_path(post_id: comment.post_id, id: comment), method: :delete, form: { data: { turbo_frame: '_top' } }

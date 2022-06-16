@@ -1,0 +1,12 @@
+= turbo_frame_tag dom_id(Comment.new) do
+  = form_with(model: [ @post, @post.comments.build ], data: { controller: "reset-form", action: "turbo:submit-end->reset-form#clear" }) do |form|
+    p
+      = form.label :author
+      br
+      = form.text_field :author
+    p
+      = form.label :message
+      br
+      = form.text_area :message
+    p
+      = form.submit

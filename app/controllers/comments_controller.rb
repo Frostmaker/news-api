@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CommentsController < ApplicationController
   before_action :set_post, only: %i[create destroy show]
 
@@ -15,11 +17,10 @@ class CommentsController < ApplicationController
   def create
     @comment = @post.comments.new(comment_params)
     respond_to do |format|
+      format.turbo_stream
       if @comment.save
-        format.turbo_stream
         format.html { redirect_to post_path(@post), notice: 'Comment was successfully created.' }
       else
-        format.turbo_stream
         format.html { redirect_to post_path(@post), status: :unprocessable_entity }
       end
     end
@@ -27,8 +28,8 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = @post.comments.find(params[:id])
-    
-    respond_to do |format| 
+
+    respond_to do |format|
       if @comment.destroy
         format.turbo_stream
         format.html { redirect_to post_path(@post), target: '_top', notice: 'Post was successfully destroyed.' }

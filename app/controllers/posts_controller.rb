@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PostsController < ApplicationController
   http_basic_authenticate_with name: Rails.application.credentials.name,
                                password: Rails.application.credentials.password, except: %i[show index]
@@ -31,15 +33,13 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.html { redirect_to post_url(@post), notice: 'Post was successfully created.' }
-        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.turbo_stream
       end
+      format.turbo_stream
     end
   end
 
-  
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
     respond_to do |format|

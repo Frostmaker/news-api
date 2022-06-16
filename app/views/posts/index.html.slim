@@ -1,0 +1,11 @@
+= turbo_stream_from 'posts'
+p[style="color: green"]
+  = notice
+h1
+  | Posts
+= turbo_frame_tag dom_id(Post.new) do
+  = link_to "New post", new_post_path
+= turbo_frame_tag 'posts' do
+  #posts
+    - @posts.each do |post|
+      = render post
