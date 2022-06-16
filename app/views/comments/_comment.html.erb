@@ -1,5 +1,8 @@
 <div id="<%= dom_id comment %>">
-<p>
-	<strong><%= comment.author %>:</strong> <%= comment.message %>
-</p>
+	<p>
+		<strong><%= comment.author %>:</strong> <%= comment.message %>
+	</p>
+	<p>
+    	<%= button_to "Delete", post_comment_path(1post_id: comment.post_id, id: comment), method: :delete, form: { data: { turbo_frame: '_top' } } %>
+	</p>
 </div>

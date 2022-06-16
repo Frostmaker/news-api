@@ -1,8 +1,9 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, except: %i[create new]
+  before_action :set_post, only: %i[create destroy show]
 
   def show
     respond_to do |format|
+      format.turbo_stream
       format.json { render json: @comment }
     end
   end
@@ -12,7 +13,6 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @post = Post.find(params[:post_id])
     @comment = @post.comments.new(comment_params)
     respond_to do |format|
       if @comment.save
@@ -26,24 +26,25 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:post_id])
-
-    @comment.destroy
-
-    respond_to do |format|
-      format.turbo_stream { redirect_to post_path(@post), target: '_top', notice: 'Post was successfully destroyed.' }
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
-      format.json { head :no_content }
+    @comment = @post.comments.find(params[:id])
+    
+    respond_to do |format| 
+      if @comment.destroy
+        format.turbo_stream
+        format.html { redirect_to post_path(@post), target: '_top', notice: 'Post was successfully destroyed.' }
+      else
+        format.html { redirect_to post_path(@post), notice: 'Bad' }
+      end
     end
   end
 
   private
 
-  def set_comment
-    @comment = Comment.find(params[:id])
+  def set_post
+    @post = Post.find(params[:post_id])
   end
 
   def comment_params
-    params.require(:comment).permit(:author, :message)
+    params.require(:comment).permit(:author, :message, :post_id)
   end
 end
